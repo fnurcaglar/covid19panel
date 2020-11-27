@@ -2,8 +2,10 @@
 
 Created on Thu Aug 26 17:19:03 2020
 Edited on Thu Sep 3 01:32:13 2020
+Edited on Fri Nov 27 19:21  2020
 
 @author: Fatih Erdem
+@author: Ufuk Safak
 -->
 
 
@@ -86,7 +88,7 @@ Edited on Thu Sep 3 01:32:13 2020
 
         <form action = "{{ url_for('addrec') }}" method = "POST">
             <div class="form-row">
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-3">
                 <label for="name">ID</label>
                 <input type="text" class="form-control" required placeholder="..." id="userno" name="userno">
               </div>
@@ -94,14 +96,7 @@ Edited on Thu Sep 3 01:32:13 2020
                 <label for="surname">Name</label>
                 <input type="fname" class="form-control" placeholder="..." id="name" name="name">
               </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-md-4">
-                <label for="phone">Phone</label>
-                <input type="tel" class="form-control" id="phone" value="+905" placeholder="..." name="phone">
-              </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-3">
                 <label for="gender">Gender</label>
                 <select id="gender" class="form-control" name="gender">
                   <option selected>Choose...</option>
@@ -109,30 +104,38 @@ Edited on Thu Sep 3 01:32:13 2020
                   <option>Kadın</option>
                 </select>
               </div>
-              <div class="form-group col-md-4">
-                <label for="birth">Birthday</label>
-                <input class="form-control" type="number" value="2000" id="birthyear" max="2020" min="1900" name="birthyear">
-              </div>
             </div>
 
             <div class="form-row">
               <div class="form-group col-md-3">
+                <label for="phone">Phone</label>
+                <input type="tel" class="form-control" id="phone" value="+905" placeholder="..." name="phone">
+              </div>
+              <div class="form-group col-md-2">
+                <label for="birth">Birthday</label>
+                <input class="form-control" type="number" value="2000" id="birthyear" max="2020" min="1900" name="birthyear">
+              </div>
+              <div class="form-group col-md-2">
                 <label for="birth">Height (cm)</label>
                 <input class="form-control" type="number" value="175" id="height" name="height">
               </div>
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-2">
                 <label for="birth">Weight (kg)</label>
                 <input class="form-control" type="number" value="65.5" step="0.1" id="weight" name="weight">
               </div>
-              <div class="form-group col-md-3">
+            </div>
+
+            <div class="form-row">
+
+              <div class="form-group col-md-4">
                 <label for="birth">Left PNIF</label>
                 <input class="form-control" type="number" value="100" id="leftpnif" name="leftpnif">
               </div>
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-4">
                 <label for="birth">Right PNIF</label>
                 <input class="form-control" type="number" value="100" id="rightpnif" name="rightpnif">
               </div>
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-4">
                 <label for="birth">Global PNIF</label>
                 <input class="form-control" type="number" value="100" id="globalpnif" name="globalpnif">
               </div>
