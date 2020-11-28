@@ -1272,7 +1272,7 @@
 
   /*  */
 
-  function createRouteMap (
+  function createRouthemep (
     routes,
     oldPathList,
     oldPathMap,
@@ -1471,17 +1471,17 @@
 
 
 
-  function createMatcher (
+  function creathemetcher (
     routes,
     router
   ) {
-    var ref = createRouteMap(routes);
+    var ref = createRouthemep(routes);
     var pathList = ref.pathList;
     var pathMap = ref.pathMap;
     var nameMap = ref.nameMap;
 
     function addRoutes (routes) {
-      createRouteMap(routes, pathList, pathMap, nameMap);
+      createRouthemep(routes, pathList, pathMap, nameMap);
     }
 
     function match (
@@ -2697,7 +2697,7 @@
     this.beforeHooks = [];
     this.resolveHooks = [];
     this.afterHooks = [];
-    this.matcher = createMatcher(options.routes || [], this);
+    this.matcher = creathemetcher(options.routes || [], this);
 
     var mode = options.mode || 'hash';
     this.fallback = mode === 'history' && !supportsPushState && options.fallback !== false;

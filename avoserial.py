@@ -73,6 +73,7 @@ def readData ():
     dt = datetime.now()
     message = bytes()
     message = ser.read_until(b'\n')
+    #print(message)
     gelen = str(message)[2:][:len(message)-2]
     if (gelen =="RESTARTED"): 
         message = ser.read_until(b'\n')

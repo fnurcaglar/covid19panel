@@ -46,9 +46,9 @@ Edited on Thu Sep 3 01:32:13 2020
    
 <div id="app">
    
-    <nav class="navbar sticky-top navbar-expand-lg navbar-{{tema}} bg-{{tema}}">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-{{theme}} bg-{{theme}}">
         <a class="navbar-brand" href="http://{{ip}}/{{url}}">
-            <img v-on:click="changeTheme" src="/static/logo/{{tema}}/avokadio.png" height="50" class="d-inline-block align-top" alt="">
+            <img v-on:click="changeTheme" src="/static/logo/{{theme}}/avokadio.png" height="50" class="d-inline-block align-top" alt="">
         </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,12 +59,12 @@ Edited on Thu Sep 3 01:32:13 2020
            <ul class="navbar-nav mr-auto">
                
            </ul>
-          <a class="btn mr-1 my-sm-0" style="background-color:#009245;color:white;" href="../olcum" role="button">Measure
+          <a class="btn mr-1 my-sm-0" style="background-color:#009245;color:white;" href="../measure" role="button">Measure
             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-egg-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path d="M14 10a6 6 0 0 1-12 0C2 5.686 5 0 8 0s6 5.686 6 10z"/>
             </svg>
            </a>
-           <a class="btn mr-1 my-sm-0" style="background-color:#d9e021;" href="../yenikayit" role="button">Add Person
+           <a class="btn mr-1 my-sm-0" style="background-color:#d9e021;" href="../newperson" role="button">Add Person
             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-plus-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7.5-3a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
             </svg>
@@ -112,7 +112,7 @@ Edited on Thu Sep 3 01:32:13 2020
         {%for user in users%}
         <tr>
           <th scope="row">{{user.userno}}</th>
-          <td><a class="text-reset" href="http://{{ip}}/kullanicilar/{{user.userno}}">{{user.name}}</a></td>
+          <td><a class="text-reset" href="http://{{ip}}/people/{{user.userno}}">{{user.name}}</a></td>
           <td>{{2020-user.birthyear}}</td>
           <td>{{user.height}}</td>
           <td>{{user.weight/10}}</td>
@@ -120,7 +120,7 @@ Edited on Thu Sep 3 01:32:13 2020
           <td>{{user.rightpnif}}</td>
           <td>{{user.globalpnif}}</td>
           <td></td>
-          <td><a class="btn btn-sm" style="background-color:#d9e021;" href="http://{{ip}}/kullanicilar/{{user.userno}}" role="button">Details</a></td>
+          <td><a class="btn btn-sm" style="background-color:#d9e021;" href="http://{{ip}}/people/{{user.userno}}" role="button">Details</a></td>
         </tr>
         {%endfor%}
   </tbody>
