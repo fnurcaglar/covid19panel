@@ -6,10 +6,10 @@ plotStatus = 0
 percentage = 0
 
 config = {
-		"host":"0.0.0.0",
+		"host":"192.168.1.33",
 		"port":5000,
 		# "ip":"192.168.1.104:5000"
-		"ip":"127.0.0.1:5000"
+		"ip":"192.168.1.33:5000"
 }
 
 links = {
@@ -19,4 +19,4 @@ links = {
   "people": ""
 }
 rec_folder = os.path.join("static","recs")
-com_port = "COM21"
+com_port = "/dev/ttyACM0"

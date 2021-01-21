@@ -83,7 +83,6 @@ Edited on Thu Sep 3 01:32:13 2020
                 <h1 class="display-6">
                 	<td><a class="text-reset" href="http://{{ip}}/people/{{user.userno}}">{{user.userno}} - {{user.name}}</a></td>
                     <!-- <tr><a style="margin-bottom: 0px; margin-right: 5px;">Measuring Time (seconds):</a></tr> -->
-                    <input class="form-control col-1  mr-1 my-sm-0" type="number" id="duration" min="1" name="duration">
                 	<button v-on:click="startMeasure('{{user.userno}}')" v-if="plotStatus==0" type="button" class="btn btn-dark rounded p-3">
                 		<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="#d9e021" xmlns="http://www.w3.org/2000/svg">
                 			<path d="M14 10a6 6 0 0 1-12 0C2 5.686 5 0 8 0s6 5.686 6 10z"></path>
@@ -128,16 +127,56 @@ Edited on Thu Sep 3 01:32:13 2020
                   <p></p>
 
                   {% if alerts[0] == 0 %}
-                  <div class="alert alert-success" role="alert">
+                  <div class="alert alert-success col-md-6" role="alert">
                     Measure Completed! 
                   </div>
                   {% endif %}
 
                   {% if alerts[1] == 0 %}
-                  <div class="alert alert-danger" role="alert">
+                  <div class="alert alert-danger col-md-6" role="alert">
                     Cannot Measure!
                   </div>
                   {% endif %}
+                  <div class="form-row">
+                    <div class="form-group col-md-2">
+                      <label for="phone">Gas</label>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="birth">Gas2</label>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="birth">Gas3</label>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="birth">Gas4</label>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="birth">Gas5</label>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="birth">Gas6</label>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-2">
+                      <label for="phone">[[gas1]]</label>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="birth">[[gas2]]</label>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="birth">[[gas3]]</label>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="birth">[[gas4]]</label>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="birth">[[gas5]]</label>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="birth">[[gas6]]</label>
+                    </div>
+                  </div>
 
     </section>
 </div>
@@ -163,7 +202,13 @@ Edited on Thu Sep 3 01:32:13 2020
 		companyName: "AVOKADIO",
 		plotStatus: {{plotStatus}},
         percentage: {{percentage}},
-        alerts: {{alerts}}
+        alerts: {{alerts}},
+        gas1:10,
+        gas2:20,
+        gas3:30,
+        gas4:40,
+        gas5:50,
+        gas6:60
         },
 
         created: function () {
@@ -177,7 +222,8 @@ Edited on Thu Sep 3 01:32:13 2020
                 this.socket.emit("changeTheme");
             },
             startMeasure: function (data){
-                this.socket.emit("startMeasure", data,document.getElementById("duration").value);
+                console.log("startMeasure")
+                this.socket.emit("startMeasure", data);
             },
             changeDuration: function (data){
                 this.socket.emit("changeDuration", data.target.value);
@@ -190,8 +236,13 @@ Edited on Thu Sep 3 01:32:13 2020
         },
 
         mounted: function () {
-            this.socket.on("savetoDatabase", function (data) {
-                app.savetoDatabase=data
+            this.socket.on("measureCompleted", function (gas) {
+                app.gas1=gas[0]
+                app.gas2=gas[1]
+                app.gas3=gas[2]
+                app.gas4=gas[3]
+                app.gas5=gas[4]
+                app.gas6=gas[5]
             }),
             this.socket.on("startMeasure", function (data) {
             	app.plotStatus=data[0]

@@ -58,7 +58,8 @@ def measure():
 		no = request.form.get('userno')
 		userno = no.split()[0]
 		user = users.query.filter_by(userno=userno).first()
-		return render_template("plot.html", ip=config["ip"] ,config=config, theme=theme, url=links["measure"], user=user, users=users.query.all(), plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
+		gas_value = [1,2,3,4,5,6]
+		return render_template("plot.html",gas1=1, gas2=2,gas3=3,gas4=4,gas5=5,gas6=6,ip=config["ip"] ,config=config, theme=theme, url=links["measure"], user=user, users=users.query.all(), plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
 	else:
 		return render_template("plot.html", ip=config["ip"] ,config=config, theme=theme, url=links["measure"],users=users.query.all() , plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
 
@@ -129,10 +130,10 @@ def deleteUser(userno):
 	return render_template("users.html", ip=config["ip"] ,config=config, theme=theme, url=links["people"], users= users.query.all())
 
 @sio.on("startMeasure")
-def startMeasure(userno,measureTime):
+def startMeasure(userno):
+	print("startMeasure")
 	global samplePerSecond
-	print(measureTime)
-	totalSample = int(measureTime)*samplePerSecond
+	totalSample = 10
 	#TODO: check if folders exists
 	initAvoSerial(com_port, 57600)
 	sio.emit("startMeasure", [1, 0])
@@ -152,12 +153,15 @@ def startMeasure(userno,measureTime):
 	while (data != "STARTED"):
 		startMeasureBy(totalSample)
 		data = readData()
+	gas_values = [0]*6
 	for d in range(totalSample):
 		data = readData()
 		id_no = data.split(',')[1] 
 		if is_integer(id_no): #is_integer fonksiyonu string içinde int varsa True dönüyor.
 			if (int(id_no) == d):
 				print(data)
+				for i in range(6):
+					gas_values[i] = gas_values[i] + float(data.split(',')[i+2])#TODO: do with for loop
 				f.write(data+'\n')
 				saveToExcel(sheet,data)
 				sio.emit("startMeasure", [1, int(100*(d+1)/(totalSample))])
@@ -170,6 +174,7 @@ def startMeasure(userno,measureTime):
 	closeAvoSerial()
 	sio.emit("alert", [1,1])
 	sio.emit("startMeasure", [0, 0])
+	sio.emit("measureCompleted", gas_values)
 
 @sio.on("changeDuration")
 def changeDuration(data):
@@ -196,5 +201,4 @@ def changeTheme():
 
 if __name__ == "__main__":
 	app.debug = True
-	print("                           dP                      dP oo          \n                           88                      88             \n.d8888b. dP   .dP .d8888b. 88  .dP  .d8888b. .d888b88 dP .d8888b. \n88'  `88 88   d8' 88'  `88 88888    88'  `88 88'  `88 88 88'  `88 \n88.  .88 88 .88'  88.  .88 88  `8b. 88.  .88 88.  .88 88 88.  .88 \n`88888P8 8888P'   `88888P' dP   `YP `88888P8 `88888P8 dP `88888P' \n")
 	sio.run(app, host=config["host"], port=config["port"])

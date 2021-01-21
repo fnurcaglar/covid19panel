@@ -1,7 +1,7 @@
 from avoserial import *
 import threading
-print(findPort("USB"))
-initAvoSerial("COM21", 57600)
+#print(findPort("USB"))
+initAvoSerial("/dev/ttyACM0", 57600)
 #read thread
 def read():
     while True:
