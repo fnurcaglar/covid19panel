@@ -8,86 +8,8 @@ Edited on Thu Sep 3 01:32:13 2020
 
 
 <!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet">
-	<link href="../static/bootstrap/css/bootstrap_site.min.css" rel="stylesheet">
-	<link href="../static/bootstrap/css/fontawesome-all.css" rel="stylesheet">
-	
-    <title>Ana Sayfa / Avokadio</title>
-    <link rel="apple-touch-icon" sizes="57x57" href="/static/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/static/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/static/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/static/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/static/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/static/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/static/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/static/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/static/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/static/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/static/favicon/manifest.json">
-    <meta name="description" content="Avokadio Web Interface by Fatih Erdem">
-    <meta name="author" content="Fatih Erdem">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-    
-  </head>
-  
-  <body>
-   
-<div id="app">
-   
-    <nav class="navbar sticky-top navbar-expand-lg navbar-{{theme}} bg-{{theme}}">
-        <a class="navbar-brand" href="http://{{ip}}/{{url}}">
-            <img v-on:click="changeTheme" src="/static/logo/{{theme}}/avokadio.png" height="50" class="d-inline-block align-top" alt="">
-        </a>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-       <div class="collapse navbar-collapse" id="navbarNav">
-           <ul class="navbar-nav mr-auto">
-               
-           </ul>
-          <a class="btn mr-1 my-sm-0" style="background-color:#009245;color:white;" href="../measure" role="button">Measure
-            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-egg-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 10a6 6 0 0 1-12 0C2 5.686 5 0 8 0s6 5.686 6 10z"/>
-            </svg>
-           </a>
-           <a class="btn mr-1 my-sm-0" style="background-color:#d9e021;" href="../newperson" role="button">Add Person
-            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-plus-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7.5-3a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
-            </svg>
-           </a>
-
-           <a class="btn mr-1 my-sm-0" style="background-color:#f7931e;" href="../" role="button">People
-            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-people-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
-            </svg>
-           </a>     
-        </a>
-      </div>
-    </nav>
-<!--     <nav class="navbar fixed-bottom navbar-light bg-light">
-
-        <ul class="navbar-nav mr-auto">
-            
-        </ul>
-<p style="font-size:11px">Developed by fatiherdem</p>
-     </a>
-
-  </nav> -->
-
+{% extends "avokadiobase.html" %}
+{% block content %}
     <section class="container">
 <!-- 
         <hr> -->
@@ -199,3 +121,4 @@ Edited on Thu Sep 3 01:32:13 2020
 
   </body>
 </html>
+{% endblock  %}

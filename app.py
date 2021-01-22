@@ -49,7 +49,7 @@ def saveToExcel(sheet,data):
 
 @app.route("/settings")
 def settings():
-	return render_template("settings.html", ip=config["ip"] ,config=config, theme=theme, url=links["settings"])
+	return render_template("settings.html", ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links["settings"])
 
 @app.route("/measure", methods=['POST', 'GET'])
 def measure():
@@ -59,15 +59,15 @@ def measure():
 		userno = no.split()[0]
 		user = users.query.filter_by(userno=userno).first()
 		gas_value = [1,2,3,4,5,6]
-		return render_template("plot.html",gas1=1, gas2=2,gas3=3,gas4=4,gas5=5,gas6=6,ip=config["ip"] ,config=config, theme=theme, url=links["measure"], user=user, users=users.query.all(), plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
+		return render_template("plot.html",gas1=1, gas2=2,gas3=3,gas4=4,gas5=5,gas6=6,ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links["measure"], user=user, users=users.query.all(), plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
 	else:
-		return render_template("plot.html", ip=config["ip"] ,config=config, theme=theme, url=links["measure"],users=users.query.all() , plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
+		return render_template("plot.html", ip=config["host"], port=config["port"],config=config, theme=theme, url=links["measure"],users=users.query.all() , plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
 
 @app.route("/")
 def people():
 	print(rec_folder)
 
-	return render_template("users.html", ip=config["ip"] ,config=config,users=users.query.all(), theme=theme, url=links["people"])
+	return render_template("users.html", ip=config["host"] , port=config["port"],config=config,users=users.query.all(), theme=theme, url=links["people"])
 
 @app.route("/people/<userno>")
 def kullanici(userno):
@@ -84,11 +84,11 @@ def kullanici(userno):
 		filenames.append(file)
 	numberofrecords = len(fileaddresses)
 	user = users.query.filter_by(userno=userno).first()
-	return render_template("user.html", ip=config["ip"] ,config=config, theme=theme, url=links["measure"], user=user, names=filenames, addresses=fileaddresses, number=numberofrecords)
+	return render_template("user.html", ip=config["host"] , port=config["port"],config=config, theme=theme, url=links["measure"], user=user, names=filenames, addresses=fileaddresses, number=numberofrecords)
 
 @app.route("/newperson")
 def kayit():
-	return render_template("newperson.html", ip=config["ip"] ,config=config, theme=theme, url=links["newperson"])
+	return render_template("newperson.html", ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links["newperson"])
 
 @app.route('/addrec',methods = ['POST', 'GET'])
 def addrec():
@@ -115,19 +115,19 @@ def addrec():
 		os.makedirs(user_rec_excel_folder,exist_ok= True)
 		os.makedirs(user_rec_csv_folder,exist_ok= True)
 		new = name
-	return render_template("newperson.html", ip=config["ip"] ,config=config, theme=theme, new=new)
+	return render_template("newperson.html", ip=config["host"] ,port=config["port"],config=config, theme=theme, new=new)
 
 @app.route('/measure/<userno>')
 def newrec(userno):
 	now = datetime.now().strftime("%y%m%d-%H%M%S")
 	user = users.query.filter_by(userno=userno).first()
-	return render_template("plot.html", ip=config["ip"] ,config=config, theme=theme, url=links["measure"], user=user, users=users.query.all(), plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
+	return render_template("plot.html", ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links["measure"], user=user, users=users.query.all(), plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
 
 @sio.on("deleteUser")
 def deleteUser(userno):
 	db.session.query(users).filter(users.userno==userno).delete()
 	db.session.commit()
-	return render_template("users.html", ip=config["ip"] ,config=config, theme=theme, url=links["people"], users= users.query.all())
+	return render_template("users.html", ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links["people"], users= users.query.all())
 
 @sio.on("startMeasure")
 def startMeasure(userno):
