@@ -31,48 +31,36 @@ Edited on Thu Sep 3 01:32:13 2020
                 </h1>          
                 {% endif %}
                 {% if not user %}
-                <h1 class="display-6">
-                <form action = "{{ url_for('measure') }}" method = "POST">
-                    <div class="form-group">
-                    
-                    <label for="exampleFormControlSelect1">Choose Person</label>
-                    <select class="form-control" id="userno" name="userno">
-                        {%for u in users%}
-                        <option>{{u.userno}} - {{u.name}}</option>
-                        {%endfor%}
-                    </select>
-                    <button type="submit" class="btn btn-primary">Choose</button>
-                  </div>                    
-                </form>
-                </h1>
-                
-                  {% endif %}
-
-                  {% for i in range (101) %}
-
-
+                  <h1 class="display-6">
+                    <form action = "{{ url_for('measure') }}" method = "POST">
+                      <div class="form-group">
+                        <label for="exampleFormControlSelect1">Choose Person</label>
+                        <select class="form-control col-md-9" id="userno" name="userno">
+                            {%for u in users%}
+                            <option>{{u.userno}} - {{u.name}}</option>
+                            {%endfor%}
+                        </select>
+                        <button type="submit" class="btn btn-primary">Choose</button>
+                      </div>                    
+                    </form>
+                  </h1>
+                {% endif %}
+                {% for i in range (101) %}
                   <div v-show="percentage=={{i}}" class="progress">
-
                   	<div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{i}}%;" aria-valuenow="{{i}}" aria-valuemin="0" aria-valuemax="100">{{i}}%</div>
-
                   </div>
-
-
-                  {% endfor %}
-                  
-                  <p></p>
-
-                  {% if alerts[0] == 0 %}
+                {% endfor %}
+                <p></p>
+                {% if alerts[0] == 0 %}
                   <div class="alert alert-success col-md-6" role="alert">
                     Measure Completed! 
                   </div>
-                  {% endif %}
-
-                  {% if alerts[1] == 0 %}
+                {% endif %}
+                {% if alerts[1] == 0 %}
                   <div class="alert alert-danger col-md-6" role="alert">
                     Cannot Measure!
                   </div>
-                  {% endif %}
+                {% endif %}
                   <div class="form-row">
                     <div class="form-group col-md-2">
                       <label for="phone">Gas</label>
@@ -113,7 +101,6 @@ Edited on Thu Sep 3 01:32:13 2020
                       <label for="birth">[[gas6]]</label>
                     </div>
                   </div>
-
     </section>
 </div>
 
