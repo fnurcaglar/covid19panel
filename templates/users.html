@@ -5,120 +5,101 @@ Edited on Thu Sep 3 01:32:13 2020
 
 @author: Fatih Erdem
 -->
-
-
 <!doctype html>
-{% extends "avokadiobase.html" %}
-{% block content %}
-    <section class="container">
-<!-- 
-        <hr> -->
+    {% extends "avokadiobase.html" %}
+    {% block content %}
+        <section class="container">
+            {% if users %}
+                <table class="table table-responsive-lg table-hover table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">İsim</th>
+                            <th scope="col">Yaş</th>
+                            <th scope="col">Boy</th>
+                            <th scope="col">Kilo</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for user in users%}
+                        <tr>
+                            <th scope="row">{{user.userno}}</th>
+                            <td><a class="text-reset" href="http://{{ip}}/hasta/{{user.userno}}">{{user.name}}</a></td>
+                            <td>{{2020-user.birthyear}}</td>
+                            <td>{{user.height}}</td>
+                            <td>{{user.weight/10}}</td>
+                            <td></td>
+                            <td><a class="btn btn-sm" style="background-color:#d9e021;" href="http://{{ip}}/hasta/{{user.userno}}" role="button">Detaylar</a></td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            {% endif %}
+        </section>
 
-        {% if users %}
-        <table class="table table-responsive-lg table-hover table-borderless">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Age</th>
-            <th scope="col">Height</th>
-            <th scope="col">Weight</th>
-            <th scope="col">Left PNIF</th>
-            <th scope="col">Right PNIF</th>
-            <th scope="col">Global PNIF</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-        {%for user in users%}
-        <tr>
-          <th scope="row">{{user.userno}}</th>
-          <td><a class="text-reset" href="http://{{ip}}/people/{{user.userno}}">{{user.name}}</a></td>
-          <td>{{2020-user.birthyear}}</td>
-          <td>{{user.height}}</td>
-          <td>{{user.weight/10}}</td>
-          <td>{{user.leftpnif}}</td>
-          <td>{{user.rightpnif}}</td>
-          <td>{{user.globalpnif}}</td>
-          <td></td>
-          <td><a class="btn btn-sm" style="background-color:#d9e021;" href="http://{{ip}}/people/{{user.userno}}" role="button">Details</a></td>
-        </tr>
-        {%endfor%}
-  </tbody>
-</table>
-
-        {% endif %}
-
-
-    </section>
-</div>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="../static/vue/vue.js"></script>
-    <script src="../static/socketio/socket.io.js"></script>
-	<script src="../static/bootstrap/jquery.js"></script>
-    <script src="../static/bootstrap/umd/popper.js"></script>
-    <script src="../static/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-    
-    
-    <!--Vue.JS-->
-    <script>
-        var app = new Vue({
-        el: "#app",
-        delimiters: ["[[", "]]"],
-		data: {
-		companyName: "AVOKADIO"
-        },
-
-        created: function () {
-            this.socket = io("{{ip}}").connect();
-        },
-
-
-        methods: {
-
-            updateStepFrequency: function (data){
-                this.socket.emit("updateStepFrequency", data);
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="../static/vue/vue.js"></script>
+        <script src="../static/socketio/socket.io.js"></script>
+        <script src="../static/bootstrap/jquery.js"></script>
+        <script src="../static/bootstrap/umd/popper.js"></script>
+        <script src="../static/bootstrap/js/bootstrap.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+        <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+            
+            
+        <!--Vue.JS-->
+        <script>
+            var app = new Vue({
+            el: "#app",
+            delimiters: ["[[", "]]"],
+            data: {
+            companyName: "AVOKADIO"
             },
-            changeTheme: function (){
-                this.socket.emit("changeTheme");
+
+            created: function () {
+                this.socket = io("{{ip}}").connect();
             },
-            savetoDatabase: function (){
-                this.socket.emit("savetoDatabase");
+
+
+            methods: {
+
+                updateStepFrequency: function (data){
+                    this.socket.emit("updateStepFrequency", data);
+                },
+                changeTheme: function (){
+                    this.socket.emit("changeTheme");
+                },
+                savetoDatabase: function (){
+                    this.socket.emit("savetoDatabase");
+                },
+                deleteUser: function (userno){
+                    this.socket.emit("deleteUser", userno);
+                },
+                newrec: function (userno){
+                    this.socket.emit("newrec", userno);
+                }
+
             },
-            deleteUser: function (userno){
-                this.socket.emit("deleteUser", userno);
-            },
-            newrec: function (userno){
-                this.socket.emit("newrec", userno);
+
+            mounted: function () {
+                this.socket.on("savetoDatabase", function (data) {
+                    app.savetoDatabase=data
+                })
             }
 
-        },
-
-        mounted: function () {
-            this.socket.on("savetoDatabase", function (data) {
-                app.savetoDatabase=data
             })
-        }
+        </script>
 
-		})
-	</script>
-
-    <!--Popover-->
-    <script>
-        $(function (){
-            $('[data-toggle="popover"]').popover();
-        })
-    </script>
-
-
-    
-
-  </body>
+        <!--Popover-->
+        <script>
+            $(function (){
+                $('[data-toggle="popover"]').popover();
+            })
+        </script>
+    </body>
 </html>
 {% endblock  %}

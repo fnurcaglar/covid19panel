@@ -47,11 +47,7 @@ def saveToExcel(sheet,data):
 	for i in range(1,9):
 		sheet.cell(row=row_num+2, column=i+1).value = float(data_split[i])
 
-@app.route("/settings")
-def settings():
-	return render_template("settings.html", ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links["settings"])
-
-@app.route("/measure", methods=['POST', 'GET'])
+@app.route("/olcum", methods=['POST', 'GET'])
 def measure():
 	if request.method == 'POST':
 		now = datetime.now().strftime("%y%m%d-%H%M%S")
@@ -59,17 +55,16 @@ def measure():
 		userno = no.split()[0]
 		user = users.query.filter_by(userno=userno).first()
 		gas_value = [1,2,3,4,5,6]
-		return render_template("plot.html",gas1=1, gas2=2,gas3=3,gas4=4,gas5=5,gas6=6,ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links["measure"], user=user, users=users.query.all(), plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
+		return render_template("olcum.html",gas1=1, gas2=2,gas3=3,gas4=4,gas5=5,gas6=6,ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links, user=user, users=users.query.all(), plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
 	else:
-		return render_template("plot.html", ip=config["host"], port=config["port"],config=config, theme=theme, url=links["measure"],users=users.query.all() , plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
+		return render_template("olcum.html", ip=config["host"], port=config["port"],config=config, theme=theme, url=links,users=users.query.all() , plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
 
 @app.route("/")
 def people():
 	print(rec_folder)
-
 	return render_template("users.html", ip=config["host"] , port=config["port"],config=config,users=users.query.all(), theme=theme, url=links["people"])
 
-@app.route("/people/<userno>")
+@app.route("/hasta/<userno>")
 def kullanici(userno):
 	addr = os.path.join(rec_folder,userno,"excel")
 	fileaddresses = glob(addr+"//*")
@@ -84,11 +79,11 @@ def kullanici(userno):
 		filenames.append(file)
 	numberofrecords = len(fileaddresses)
 	user = users.query.filter_by(userno=userno).first()
-	return render_template("user.html", ip=config["host"] , port=config["port"],config=config, theme=theme, url=links["measure"], user=user, names=filenames, addresses=fileaddresses, number=numberofrecords)
+	return render_template("user.html", ip=config["host"] , port=config["port"],config=config, theme=theme, url=links["olcum"], user=user, names=filenames, addresses=fileaddresses, number=numberofrecords)
 
-@app.route("/newperson")
+@app.route("/yenikayit")
 def kayit():
-	return render_template("newperson.html", ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links["newperson"])
+	return render_template("yenikayit.html", ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links["yenikayit"])
 
 @app.route('/addrec',methods = ['POST', 'GET'])
 def addrec():
@@ -115,13 +110,13 @@ def addrec():
 		os.makedirs(user_rec_excel_folder,exist_ok= True)
 		os.makedirs(user_rec_csv_folder,exist_ok= True)
 		new = name
-	return render_template("newperson.html", ip=config["host"] ,port=config["port"],config=config, theme=theme, new=new)
+	return render_template("yenikayit.html", ip=config["host"] ,port=config["port"],config=config, theme=theme, new=new)
 
-@app.route('/measure/<userno>')
+@app.route('/olcum/<userno>')
 def newrec(userno):
 	now = datetime.now().strftime("%y%m%d-%H%M%S")
 	user = users.query.filter_by(userno=userno).first()
-	return render_template("plot.html", ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links["measure"], user=user, users=users.query.all(), plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
+	return render_template("olcum.html", ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links["olcum"], user=user, users=users.query.all(), plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
 
 @sio.on("deleteUser")
 def deleteUser(userno):

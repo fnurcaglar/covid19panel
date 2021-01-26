@@ -1,0 +1,181 @@
+<!doctype html>
+  {% extends "avokadiobase.html" %}
+  {% block content %}
+    <section class="container"> 
+      <div class>
+        {% if user %}     
+          <h1 class="display-6">
+            <td><a class="text-reset" href="http://{{ip}}/hasta/{{user.userno}}">{{user.userno}} - {{user.name}}</a></td>
+              <!-- <tr><a style="margin-bottom: 0px; margin-right: 5px;">Measuring Time (seconds):</a></tr> -->
+            <button v-on:click="startMeasure('{{user.userno}}')" v-if="plotStatus==0" type="button" class="btn btn-dark rounded p-3">
+              <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="#d9e021" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 10a6 6 0 0 1-12 0C2 5.686 5 0 8 0s6 5.686 6 10z"></path>
+              </svg> Ölçüm Yap  
+            </button>
+            <button  v-if="plotStatus==1"class="btn btn-dark rounded p-3" type="button" disabled>
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Ölçüm Yapılıyor...
+            </button>
+          </h1>          
+        {% endif %}
+        {% if not user %}
+          <h1 class="display-6">
+            <form action = "olcum" method = "POST">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Hasta Seç</label>
+                <select class="form-control col-md-9" id="userno" name="userno">
+                    <option>Serbest Ölçüm</option>
+                    {%for u in users%}
+                    <option>{{u.name}}</option>
+                    {%endfor%}
+                </select>
+                <button type="submit" class="btn btn-primary">Seç</button>
+              </div>                    
+            </form>
+          </h1>
+        {% endif %}
+        {% for i in range (101) %}
+          <div v-show="percentage=={{i}}" class="progress">
+            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{i}}%;" aria-valuenow="{{i}}" aria-valuemin="0" aria-valuemax="100">{{i}}%</div>
+          </div>
+        {% endfor %}
+        <p></p>
+        {% if alerts[0] == 0 %}
+          <div class="alert alert-success col-md-6" role="alert">
+            Ölçüm Tamamlandı.
+          </div>
+        {% endif %}
+        {% if alerts[1] == 0 %}
+          <div class="alert alert-danger col-md-6" role="alert">
+            Ölçüm Yapılamadı!
+          </div>
+        {% endif %}
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label for="phone">Gas</label>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="birth">Gas2</label>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="birth">Gas3</label>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="birth">Gas4</label>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="birth">Gas5</label>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="birth">Gas6</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label for="phone">[[gas1]]</label>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="birth">[[gas2]]</label>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="birth">[[gas3]]</label>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="birth">[[gas4]]</label>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="birth">[[gas5]]</label>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="birth">[[gas6]]</label>
+          </div>
+      </div>
+    </section>
+</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../static/vue/vue.js"></script>
+    <script src="../static/socketio/socket.io.js"></script>
+	  <script src="../static/bootstrap/jquery.js"></script>
+    <script src="../static/bootstrap/umd/popper.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+  
+    <!--Vue.JS-->
+    <script>
+        var app = new Vue({
+        el: "#app",
+        delimiters: ["[[", "]]"],
+		data: {
+		companyName: "AVOKADIO",
+		plotStatus: {{plotStatus}},
+        percentage: {{percentage}},
+        alerts: {{alerts}},
+        gas1:10,
+        gas2:20,
+        gas3:30,
+        gas4:40,
+        gas5:50,
+        gas6:60
+        },
+
+        created: function () {
+            this.socket = io("{{ip}}").connect();
+        },
+
+
+        methods: {
+
+            changeTheme: function (){
+                this.socket.emit("changeTheme");
+            },
+            startMeasure: function (data){
+                console.log("startMeasure")
+                this.socket.emit("startMeasure", data);
+            },
+            changeDuration: function (data){
+                this.socket.emit("changeDuration", data.target.value);
+                console.log(data)
+            },
+            delete_user: function (user_id){
+                this.socket.emit("delete_user", user_id);
+            }
+
+        },
+
+        mounted: function () {
+            this.socket.on("measureCompleted", function (gas) {
+                app.gas1=gas[0]
+                app.gas2=gas[1]
+                app.gas3=gas[2]
+                app.gas4=gas[3]
+                app.gas5=gas[4]
+                app.gas6=gas[5]
+            }),
+            this.socket.on("startMeasure", function (data) {
+            	app.plotStatus=data[0]
+            	app.percentage=data[1]
+            }),
+            this.socket.on("alert", function (data) {
+            	app.alerts=data
+            })
+        }
+
+    })
+  </script>
+
+    <!--Popover-->
+    <script>
+        $(function (){
+            $('[data-toggle="popover"]').popover();
+        })
+    </script>
+
+
+    
+
+  </body>
+</html>
+{% endblock  %}

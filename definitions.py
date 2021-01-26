@@ -7,14 +7,13 @@ plotStatus = 0
 percentage = 0
 
 config = {
-		"host":"127.0.0.1",
+		"host":"192.168.1.33",
 		"port":5000,
 }
 
 links = {
-  "measure": "measure",
-#   "ayarlar": "ayarlar",
-  "newperson": "newperson",
+  "olcum": "olcum",
+  "yenikayit": "yenikayit",
   "people": ""
 }
 rec_folder = os.path.join("static","recs")

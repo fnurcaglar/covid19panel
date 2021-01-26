@@ -1,0 +1,126 @@
+<!doctype html>
+  {% extends "avokadiobase.html" %}
+  {% block content %}
+    <section class="container">
+      <form action = "{{ url_for('addrec') }}" method = "POST">
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="name">ID</label>
+            <input type="text" class="form-control" required placeholder="..." id="userno" name="userno">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="surname">İsim</label>
+            <input type="fname" class="form-control" placeholder="..." id="name" name="name">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="gender">Cinsiyet</label>
+            <select id="gender" class="form-control" name="gender">
+              <option selected>Seçiniz...</option>
+              <option>Erkek</option>
+              <option>Kadın</option>
+              <option>Diğer</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="phone">Telefon Numarası</label>
+            <input type="tel" class="form-control" id="phone" value="+905" placeholder="..." name="phone">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="birth">Doğum Yılı</label>
+            <input class="form-control" type="number" value="2000" id="birthyear" max="2021" min="1900" name="birthyear">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="birth">Boy (cm)</label>
+            <input class="form-control" type="number" value="175" id="height" name="height">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="birth">Ağırlık (kg)</label>
+            <input class="form-control" type="number" value="65.5" step="0.1" id="weight" name="weight">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="phone">Hastalıklar</label>
+            <input type="text" class="form-control" id="note" placeholder="..." name="note">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="birth">Notlar</label>
+            <input type="text" class="form-control" id="note" placeholder="..." name="note">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+      <hr>
+      {% if new %}
+        <div class="alert alert-success" role="alert">
+          {{new}} yeni hasta kaydı başarı ile tamamlandı!
+        </div>
+        <hr>
+      {% endif %}
+    </section>
+  </div>
+
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="../static/vue/vue.js"></script>
+      <script src="../static/socketio/socket.io.js"></script>
+    <script src="../static/bootstrap/jquery.js"></script>
+      <script src="../static/bootstrap/umd/popper.js"></script>
+      <script src="../static/bootstrap/js/bootstrap.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+      <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+      
+      
+      <!--Vue.JS-->
+      <script>
+          var app = new Vue({
+          el: "#app",
+          delimiters: ["[[", "]]"],
+      data: {
+      companyName: "AVOKADIO"
+          },
+
+          created: function () {
+              this.socket = io("{{ip}}").connect();
+          },
+
+
+          methods: {
+
+              updateStepFrequency: function (data){
+                  this.socket.emit("updateStepFrequency", data);
+              },
+              changeTheme: function (){
+                  this.socket.emit("changeTheme");
+              },
+              savetoDatabase: function (){
+                  this.socket.emit("savetoDatabase");
+              }
+
+          },
+
+          mounted: function () {
+              this.socket.on("savetoDatabase", function (data) {
+                  app.savetoDatabase=data
+              })
+          }
+
+      })
+    </script>
+
+      <!--Popover-->
+      <script>
+          $(function (){
+              $('[data-toggle="popover"]').popover();
+          })
+      </script>
+
+
+      
+
+    </body>
+  </html>
+  {% endblock %}
