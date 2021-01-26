@@ -8,34 +8,63 @@ Edited on Thu Sep 3 01:32:13 2020
 <!doctype html>
     {% extends "avokadiobase.html" %}
     {% block content %}
+
+    
+
         <section class="container">
+            <a class="btn btn-primary btn-lg btn-block" style="background-color:#f7931e;" href="../yenikayit" role="button">Hasta Ekle
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-plus-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7.5-3a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                </svg>
+              </a>
             {% if users %}
-                <table class="table table-responsive-lg table-hover table-borderless">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">İsim</th>
-                            <th scope="col">Yaş</th>
-                            <th scope="col">Boy</th>
-                            <th scope="col">Kilo</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {%for user in users%}
-                        <tr>
-                            <th scope="row">{{user.userno}}</th>
-                            <td><a class="text-reset" href="http://{{ip}}/hasta/{{user.userno}}">{{user.name}}</a></td>
-                            <td>{{2020-user.birthyear}}</td>
-                            <td>{{user.height}}</td>
-                            <td>{{user.weight/10}}</td>
-                            <td></td>
-                            <td><a class="btn btn-sm" style="background-color:#d9e021;" href="http://{{ip}}/hasta/{{user.userno}}" role="button">Detaylar</a></td>
-                        </tr>
-                        {%endfor%}
-                    </tbody>
-                </table>
+
+            <div class="accordion" id="accordionExample">
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                      <h2 class="mb-0">
+                        <button class="btn btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          Hasta Listesi >>
+                        </button>
+                      </h2>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                      <div class="card-body">
+                      
+                        <table class="table table-responsive-lg table-hover table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">İsim</th>
+                                    <th scope="col">Yaş</th>
+                                    <th scope="col">Boy</th>
+                                    <th scope="col">Kilo</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for user in users%}
+                                <tr>
+                                    <th scope="row">{{user.userno}}</th>
+                                    <td><a class="text-reset" href="http://{{ip}}/hasta/{{user.userno}}">{{user.name}}</a></td>
+                                    <td>{{2020-user.birthyear}}</td>
+                                    <td>{{user.height}}</td>
+                                    <td>{{user.weight/10}}</td>
+                                    <td></td>
+                                    <td><a class="btn btn-outline-warning" style="outline-color:#f7931e;" href="http://{{ip}}/hasta/{{user.userno}}" role="button">Detaylar</a></td>
+                                    <td><a class="btn btn-outline-danger"  href="http://{{ip}}/hasta/{{user.userno}}" role="button">Sil</a></td>
+                                    
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+
+                    </div>
+                  </div>
+                </div>
+                </div>
+                
             {% endif %}
         </section>
 

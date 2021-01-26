@@ -17,7 +17,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///avokadio.db'
 db = SQLAlchemy(app)
 sio = SocketIO(app, logger = False)
 migrate = Migrate(app, db)
-
 class users(db.Model):
 	id 			= db.Column(db.Integer, unique=True, primary_key=True)
 	userno 		= db.Column(db.String(10)) #TODO: change to integer
@@ -58,6 +57,19 @@ def measure():
 		return render_template("olcum.html",gas1=1, gas2=2,gas3=3,gas4=4,gas5=5,gas6=6,ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links, user=user, users=users.query.all(), plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
 	else:
 		return render_template("olcum.html", ip=config["host"], port=config["port"],config=config, theme=theme, url=links,users=users.query.all() , plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
+
+@app.route("/olcum-graphic", methods=['POST', 'GET'])
+def measure1():
+	if request.method == 'POST':
+		now1 = datetime.now().strftime("%y%m%d-%H%M%S")
+		no1 = request.form.get('userno')
+		userno1 = no1.split()[0]
+		user1 = users.query.filter_by(userno=userno1).first()
+		gas_value1 = [1,2,3,4,5,6]
+		return render_template("olcum-graphic.html",gas1=1, gas2=2,gas3=3,gas4=4,gas5=5,gas6=6,ip=config["host"] ,port=config["port"],config=config, theme=theme, url=links, user=user1, users=users.query.all(), plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
+	else:
+		return render_template("olcum-graphic.html", ip=config["host"], port=config["port"],config=config, theme=theme, url=links,users=users.query.all() , plotStatus=plotStatus, percentage=percentage, alerts=[0,0])
+
 
 @app.route("/")
 def people():

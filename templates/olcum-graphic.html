@@ -1,0 +1,52 @@
+<!doctype html>
+  {% extends "avokadiobase.html" %}
+  {% block title %}
+ 
+  <style>
+      #chart {
+        max-width: 650px;
+        margin: 35px auto;
+        border: 1px black;
+        }
+  </style>
+  
+  {% endblock %}
+  {% block content %}
+    
+</div>
+<div style="position: relative; margin-left: 100px;" id="chart">
+</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../static/vue/vue.js"></script>
+    <script src="../static/socketio/socket.io.js"></script>
+	<script src="../static/bootstrap/jquery.js"></script>
+    <script src="../static/bootstrap/umd/popper.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        var options = {
+            chart: {
+                type: 'line'
+            },
+            series: [{
+                name: 'sales',
+                data: [30,90,45,50,49,60,70,91,125]
+            }],
+            xaxis: {
+                categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999]
+            }
+            }
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+        chart.render();
+    </script>
+ 
+  
+  </body>
+</html>
+{% endblock  %}

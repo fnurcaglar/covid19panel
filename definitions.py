@@ -7,7 +7,7 @@ plotStatus = 0
 percentage = 0
 
 config = {
-		"host":"192.168.1.33",
+		"host":"192.168.1.36",
 		"port":5000,
 }
 
@@ -18,6 +18,6 @@ links = {
 }
 rec_folder = os.path.join("static","recs")
 if(platform.system() == "Windows"):
-  com_port = "COM7"
+  com_port = "COM5"
 else:
   com_port = "/dev/ttyACM0"
